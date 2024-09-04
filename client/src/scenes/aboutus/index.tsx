@@ -66,7 +66,7 @@ const teamMembers = [
       registerNo: "43110044",
       department: "B.E CSE",
       yearOfStudy: "2nd Year",
-      role: "Team Strategist (Gay)",
+      role: "Team Strategist (gè)",
       avatar: "/path/to/avatar5.png",
       socialLinks: {
         facebook: "https://facebook.com/charliedavis",
