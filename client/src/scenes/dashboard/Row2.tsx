@@ -7,8 +7,8 @@ import { useMemo } from "react";
 import {
   Tooltip,
   CartesianGrid,
-  LineChart,
   ResponsiveContainer,
+  ComposedChart,
   XAxis,
   YAxis,
   Line,
@@ -18,11 +18,60 @@ import {
   ScatterChart,
   Scatter,
   ZAxis,
+  Legend,
+  Area,
+  Bar,
 } from "recharts";
 
 const pieData = [
   { name: "Group A", value: 600 },
   { name: "Group B", value: 400 },
+];
+const data = [
+  {
+    name: "Jan",
+    operationalExpenses: 4000,
+    nonOperationalExpenses: 2400,
+    amt: 2400,
+  },
+  {
+    name: "Feb",
+    operationalExpenses: 3000,
+    nonOperationalExpenses: 1398,
+    amt: 2210,
+  },
+  {
+    name: "Mar",
+    operationalExpenses: 2000,
+    nonOperationalExpenses: 9800,
+    amt: 2290,
+  },
+  {
+    name: "Apr",
+    operationalExpenses: 2780,
+    nonOperationalExpenses: 3908,
+    amt: 2000,
+  },
+  {
+    name: "May",
+    operationalExpenses: 1890,
+    nonOperationalExpenses: 4800,
+    amt: 2181,
+  },
+  {
+    name: "Jun",
+    operationalExpenses: 2390,
+    nonOperationalExpenses: 3800,
+    amt: 2500,
+  },
+  {
+    name: "Jul",
+    operationalExpenses: 3490,
+    nonOperationalExpenses: 4300,
+    amt: 2100,
+  },
+
+
 ];
 
 const Row2 = () => {
@@ -30,21 +79,6 @@ const Row2 = () => {
   const pieColors = [palette.primary[800], palette.primary[300]];
   const { data: operationalData } = useGetKpisQuery();
   const { data: productData } = useGetProductsQuery();
-
-  const operationalExpenses = useMemo(() => {
-    return (
-      operationalData &&
-      operationalData[0].monthlyData.map(
-        ({ month, operationalExpenses, nonOperationalExpenses }) => {
-          return {
-            name: month.substring(0, 3),
-            "Operational Expenses": operationalExpenses,
-            "Non Operational Expenses": nonOperationalExpenses,
-          };
-        }
-      )
-    );
-  }, [operationalData]);
 
   const productExpenseData = useMemo(() => {
     return (
@@ -66,50 +100,36 @@ const Row2 = () => {
           title="Operational vs Non-Operational Expenses"
           sideText="+4%"
         />
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart
-            data={operationalExpenses}
+        <ResponsiveContainer width="100%" height={350}>
+          <ComposedChart
+            width={500}
+            height={900}
+            data={data}
             margin={{
-              top: 20,
-              right: 0,
-              left: -10,
-              bottom: 55,
+              top: 30,
+              right: 20,
+              bottom: 20,
+              left: 20,
             }}
           >
-            <CartesianGrid vertical={false} stroke={palette.grey[800]} />
-            <XAxis
-              dataKey="name"
-              tickLine={false}
-              style={{ fontSize: "10px" }}
-            />
-            <YAxis
-              yAxisId="left"
-              orientation="left"
-              tickLine={false}
-              axisLine={false}
-              style={{ fontSize: "10px" }}
-            />
-            <YAxis
-              yAxisId="right"
-              orientation="right"
-              tickLine={false}
-              axisLine={false}
-              style={{ fontSize: "10px" }}
-            />
+            <CartesianGrid stroke="#f5f5f5" />
+            <XAxis dataKey="name" scale="band" />
+            <YAxis />
             <Tooltip />
-            <Line
-              yAxisId="left"
+            <Legend />
+            <Area
               type="monotone"
-              dataKey="Non Operational Expenses"
-              stroke={palette.tertiary[500]}
+              dataKey="amt"
+              fill="#8884d8"
+              stroke="#8884d8"
             />
+            <Bar dataKey="nonOperationalExpenses" barSize={20} fill="#413ea0" />
             <Line
-              yAxisId="right"
               type="monotone"
-              dataKey="Operational Expenses"
-              stroke={palette.primary.main}
+              dataKey="operationalExpenses"
+              stroke="#ff7300"
             />
-          </LineChart>
+          </ComposedChart>
         </ResponsiveContainer>
       </DashboardBox>
       <DashboardBox gridArea="e">

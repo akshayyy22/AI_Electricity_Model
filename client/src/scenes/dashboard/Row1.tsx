@@ -94,14 +94,6 @@ const Row1 = () => {
               fillOpacity={1}
               fill="url(#colorRevenue)"
             />
-            <Area
-              type="monotone"
-              dataKey="expenses"
-              dot={true}
-              stroke={palette.primary.main}
-              fillOpacity={1}
-              fill="url(#colorExpenses)"
-            />
           </AreaChart>
         </ResponsiveContainer>
       </DashboardBox>
