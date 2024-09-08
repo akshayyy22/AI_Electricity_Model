@@ -4,7 +4,7 @@ import Demand from '../models/MaxDemandEachMonth.js'; // Adjust based on your ac
 const router = express.Router();
 
 // Endpoint to get all demand records
-router.get("/allmaxdemanddata", async (req, res) => {
+router.get("/alltimemaxdemanddata", async (req, res) => {
   try {
     const demands = await Demand.find();
     res.status(200).json(demands);

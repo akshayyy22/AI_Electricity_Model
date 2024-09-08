@@ -1,24 +1,42 @@
 import { Box, useMediaQuery } from "@mui/material";
-import  Row1  from "./Row1";
-import  Row2  from "./Row2";
-// import  Row3  from "./Row3";
+import Row1 from "./Row1";
+import Row2 from "./Row2";
+import Row3 from "./Row3";
+import Row4 from "./Row4" ;
 
 const gridTemplateLargeScreens = `
   "a b c "
   "a b c "
   "a b c"
-  "a b f"
-  "d e f"
-  "d e f"
-  "d h i"
-  "d h i"
-  "d h i"
-  "g h i"
-  "g h j"
-  "g h j"
-
-
+  "a b c"
+  "a b c"
+  "d d d"
+  "d d d"
+  "d d d"
+  "d d d"
+  "d d d"
+  "g g g"
+  "g g g"
+  "g g g"
+  "g g g"
+  "g g g"
+  "g g g"
+  "g g g"
+  "g g g"
+  "g g g"
+  "g g g"
+  "g g g"
+  "e e e "
+  "e e e "
+  "e e e "
+  "e e e "
+  "e e e "
+  "e e e "
+  "e e e "
+  "e e e "
+  "e e e "
 `;
+
 const gridTemplateSmallScreens = `
   "a"
   "a"
@@ -35,22 +53,16 @@ const gridTemplateSmallScreens = `
   "d"
   "d"
   "d"
+  "g"
+  "g"
+  "g"
   "e"
   "e"
-  "f"
-  "f"
-  "f"
-  "g"
-  "g"
-  "g"
-  "h"
-  "h"
-  "h"
-  "h"
-  "i"
-  "i"
-  "j"
-  "j"
+  "e"
+  "e"
+
+  
+  
 `;
 
 const Dashboard = () => {
@@ -65,7 +77,7 @@ const Dashboard = () => {
         isAboveMediumScreens
           ? {
               gridTemplateColumns: "repeat(3, minmax(370px, 1fr))",
-              gridTemplateRows: "repeat(10, minmax(60px, 1fr))",
+              gridTemplateRows: "repeat(12, minmax(60px, 1fr))", // Adjusted to accommodate more rows if needed
               gridTemplateAreas: gridTemplateLargeScreens,
             }
           : {
@@ -77,7 +89,8 @@ const Dashboard = () => {
     >
       <Row1 />
       <Row2 />
-      {/* <Row3 /> */}
+      <Row3 />
+      <Row4 />
     </Box>
   );
 };

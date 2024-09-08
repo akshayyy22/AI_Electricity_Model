@@ -54,5 +54,4 @@ const MaxDemandOfEachMonthEveryYear = mongoose.model(
   maxDemandOfEachMonthEveryYearSchema
 );
 
-// Use ES6 export syntax
 export { MaxDemandOfEveryMonth, MaxDemandOfEveryYear, MaxDemandOfEachMonthEveryYear };
