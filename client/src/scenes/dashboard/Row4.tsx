@@ -12,34 +12,51 @@ import {
   Area,
   TooltipProps,
   CartesianGrid,
+  Label,
 } from "recharts";
-import { format } from 'date-fns'; 
+import { format } from "date-fns";
 
 const Row4 = () => {
   const { palette } = useTheme();
-  const { data: powerFurtherRequiredData } = useGetPowerFurtherRequiredFromSolarEnergyQuery();
+  const { data: powerFurtherRequiredData } =
+    useGetPowerFurtherRequiredFromSolarEnergyQuery();
 
   // Ensure data is properly fetched and transformed
   const solarEnergyChartData = Array.isArray(powerFurtherRequiredData)
-    ? powerFurtherRequiredData.map((item: PowerFurtherRequiredFromSolarEnergy) => ({
-        month: item.month,
-        'od-ud': item['od-ud'], 
-        date: format(new Date(item.date), 'dd MMM yyyy'), 
-      }))
+    ? powerFurtherRequiredData.map(
+        (item: PowerFurtherRequiredFromSolarEnergy) => ({
+          month: item.month,
+          "od-ud": item["od-ud"],
+          date: format(new Date(item.date), "dd MMM yyyy"),
+        })
+      )
     : [];
 
-  console.log("Fetched Data:", powerFurtherRequiredData);
-  console.log("Mapped Chart Data:", solarEnergyChartData);
+  // Sort data by month in ascending order
+  const sortedChartData = solarEnergyChartData.sort(
+    (a, b) => a.month - b.month
+  );
 
-  const uniqueMonths = Array.from(new Set(solarEnergyChartData.map((item) => item.month)));
+  console.log("Fetched Data:", powerFurtherRequiredData);
+  console.log("Mapped and Sorted Chart Data:", sortedChartData);
+
+  const uniqueMonths = Array.from(
+    new Set(sortedChartData.map((item) => item.month))
+  );
   console.log("Unique Months:", uniqueMonths);
 
   // Custom Tooltip component
   const CustomTooltip = ({ active, payload }: TooltipProps<any, any>) => {
     if (active && payload && payload.length) {
-      const { date, 'od-ud': odUd } = payload[0].payload;
+      const { date, "od-ud": odUd } = payload[0].payload;
       return (
-        <div style={{ backgroundColor: '#fff', padding: '10px', border: '1px solid #ccc' }}>
+        <div
+          style={{
+            backgroundColor: "#fff",
+            padding: "10px",
+            border: "1px solid #ccc",
+          }}
+        >
           <p>{`Date: ${date}`}</p>
           <p>{`Overdraw/Underdraw: ${odUd}`}</p>
         </div>
@@ -60,8 +77,8 @@ const Row4 = () => {
         />
         <ResponsiveContainer width="100%" height={300}>
           <AreaChart
-            data={solarEnergyChartData}
-            margin={{ top: 10, right: 20, left: -5, bottom: 40 }}
+            data={sortedChartData}
+            margin={{ top: 10, right: 20, left: 15, bottom: 40 }}
           >
             <defs>
               <linearGradient
@@ -89,17 +106,27 @@ const Row4 = () => {
               tickLine={false}
               ticks={uniqueMonths}
               style={{ fontSize: "10px" }}
-            />
+            >
+              <Label value="Month" offset={-17} position="insideBottom" />{" "}
+              </XAxis>
             <YAxis
               tickLine={false}
               axisLine={{ strokeWidth: 0 }}
               style={{ fontSize: "10px" }}
               domain={["auto", "auto"]}
-            />
+            >
+              <Label
+                value="Demand (MW)"
+                angle={-90}
+                offset={0}
+                position="insideLeft"
+                style={{ textAnchor: "middle" }}
+              />
+            </YAxis>
             <Tooltip content={<CustomTooltip />} />
             <Area
               type="monotone"
-              dataKey="od-ud" 
+              dataKey="od-ud"
               dot={true}
               stroke={palette.primary.main}
               fillOpacity={1}

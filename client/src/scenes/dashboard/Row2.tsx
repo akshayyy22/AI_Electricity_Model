@@ -10,7 +10,7 @@ import {
   YAxis,
   ComposedChart,
   Bar,
-  Line,
+  Line,Label,
   Legend,
 } from "recharts";
 import { PowerConsumptionGraphData } from "@/state/types";
@@ -51,13 +51,17 @@ const Row2 = () => {
             margin={{
               top: 30,
               right: 20,
-              bottom: 20,
-              left: 20,
+              bottom: 30,
+              left: 35,
             }}
           >
             <CartesianGrid stroke="#f5f5f5" />
-            <XAxis dataKey="date" scale="band" />
-            <YAxis />
+            <XAxis dataKey="date" scale="band" >
+            <Label value="Year-month" offset={-40} position="insideBottom" />{" "}
+              </XAxis>
+            <YAxis >
+            <Label value="Demand (MW)" angle={-90} offset={-20} position="insideLeft" style={{ textAnchor: 'middle' }}  />
+              </YAxis>
             <Tooltip />
             <Legend />
             <Bar

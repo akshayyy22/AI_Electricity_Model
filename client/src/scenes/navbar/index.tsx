@@ -1,13 +1,25 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import FlashOnIcon from '@mui/icons-material/FlashOn';
-
 import { Box, Typography, useTheme } from "@mui/material";
 import FlexBetween from "@/components/FlexBetween";
 
 const Navbar = () => {
   const { palette } = useTheme();
-  const [selected, setSelected] = useState("dashboard");
+  const location = useLocation();
+  const [selected, setSelected] = useState("");
+
+  // Sync state with the current route on mount or route change
+  useEffect(() => {
+    const currentPath = location.pathname;
+    if (currentPath === "/") {
+      setSelected("predictions");
+    } else if (currentPath === "/dashboard") {
+      setSelected("dashboard");
+    } else if (currentPath === "/aboutus") {
+      setSelected("aboutus");
+    }
+  }, [location.pathname]);
 
   return (
     <FlexBetween mb="0.25rem" p="0.5rem 0rem" color={palette.grey[300]}>
@@ -23,7 +35,7 @@ const Navbar = () => {
       <FlexBetween gap="2rem">
         <Box sx={{ "&:hover": { color: palette.primary[100] } }}>
           <Link
-            to="/" 
+            to="/"
             onClick={() => setSelected("predictions")}
             style={{
               color: selected === "predictions" ? "inherit" : palette.grey[700],
@@ -35,7 +47,7 @@ const Navbar = () => {
         </Box>
         <Box sx={{ "&:hover": { color: palette.primary[100] } }}>
           <Link
-            to="/dashboard" 
+            to="/dashboard"
             onClick={() => setSelected("dashboard")}
             style={{
               color: selected === "dashboard" ? "inherit" : palette.grey[700],

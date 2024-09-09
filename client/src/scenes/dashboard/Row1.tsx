@@ -24,9 +24,9 @@ import {
   PieChart,
   Pie,
   Sector,
+  Label,
 } from "recharts";
 import React, { useState } from "react";
-
 
 const renderActiveShape = (props: any) => {
   const RADIAN = Math.PI / 180;
@@ -117,10 +117,13 @@ const Row1 = () => {
   const chartData: Array<{ name: number; demand: number }> = Array.isArray(
     maxDemandData
   )
-    ? maxDemandData.map((item: MaxDemandOfEveryYear) => ({
-        name: item.year,
-        demand: item.unrestricted_demand,
-      }))
+    ? maxDemandData
+        .map((item: MaxDemandOfEveryYear) => ({
+          name: item.year,
+          demand: item.unrestricted_demand,
+        }))
+        // Sort chartData by year (ascending order)
+        .sort((a, b) => a.name - b.name)
     : [];
 
   // Prepare data for Power Consumption Chart
@@ -138,7 +141,7 @@ const Row1 = () => {
         (d) => d.year
       )
     )
-  );
+  ).sort((a, b) => a - b); // Sort the years in ascending order
 
   const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedYear(Number(event.target.value));
@@ -171,7 +174,7 @@ const Row1 = () => {
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={chartData}
-            margin={{ top: 15, right: 25, left: -10, bottom: 60 }}
+            margin={{ top: 15, right: 25, left: 20, bottom: 80 }} // Increased bottom margin
           >
             <defs>
               <linearGradient id="colorDemand" x1="0" y1="0" x2="0" y2="1">
@@ -187,17 +190,19 @@ const Row1 = () => {
                 />
               </linearGradient>
             </defs>
-            <XAxis
-              dataKey="name"
-              tickLine={false}
-              style={{ fontSize: "10px" }}
-            />
+            <XAxis dataKey="name" tickLine={false} style={{ fontSize: "10px" }}>
+              <Label value="Year" offset={-10} position="insideBottom" />{" "}
+              {/* Adjusted offset */}
+            </XAxis>
+
             <YAxis
               tickLine={false}
               axisLine={{ strokeWidth: 0 }}
               style={{ fontSize: "10px" }}
               domain={["auto", "auto"]}
-            />
+            >
+              <Label value="Demand (MW)" angle={-90} offset={-5} position="insideLeft" style={{ textAnchor: 'middle' }} />
+              </YAxis>
             <Tooltip />
             <Area
               type="monotone"
@@ -291,7 +296,7 @@ const Row1 = () => {
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={infrastructureChartData}
-            margin={{ top: 17, right: 15, left: -5, bottom: 58 }}
+            margin={{ top: 17, right: 15, left: 20, bottom: 80 }}
           >
             <CartesianGrid vertical={false} stroke={palette.grey[800]} />
             <XAxis
@@ -299,12 +304,16 @@ const Row1 = () => {
               axisLine={false}
               tickLine={false}
               style={{ fontSize: "10px" }}
-            />
+            >
+                <Label value="Year-month" offset={-10} position="insideBottom" />{" "}
+              </XAxis>
             <YAxis
               axisLine={false}
               tickLine={false}
               style={{ fontSize: "10px" }}
-            />
+            >
+              <Label value="Demand (MW)" angle={-90} offset={-5} position="insideLeft" style={{ textAnchor: 'middle' }} />
+              </YAxis>
             <Tooltip />
             <Bar dataKey="Domestic" fill={palette.primary.main} />
             <Bar dataKey="Commercial" fill={palette.secondary.main} />

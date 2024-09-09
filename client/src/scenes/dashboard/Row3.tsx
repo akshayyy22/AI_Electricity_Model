@@ -1,11 +1,10 @@
 import BoxHeader from "@/components/BoxHeader";
 import DashboardBox from "@/components/DashboardBox";
 import { useGetPowerConsumptionsBasedOnPublicHolidaysQuery } from "@/state/api";
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,Label } from "recharts";
 import { curveCardinal } from 'd3-shape';
 import { format } from 'date-fns';
 import { PowerConsumptionsBasedOnPublicHolidays } from "@/state/types";
-
 
 const Row3 = () => {
   const { data } = useGetPowerConsumptionsBasedOnPublicHolidaysQuery();
@@ -18,6 +17,8 @@ const Row3 = () => {
       year: format(new Date(item.date), 'yyyy'), 
     }))
     .sort((a, b) => parseInt(a.year) - parseInt(b.year)); 
+
+  const uniqueYears = Array.from(new Set(formattedData?.map(item => item.year)));
 
   const tooltipFormatter = (value: number, _name: string, item: { payload?: PowerConsumptionsBasedOnPublicHolidays }) => {
     if (item.payload) {
@@ -41,18 +42,24 @@ const Row3 = () => {
             margin={{
               top: 20,
               right: 30,
-              left: 0,
-              bottom: 50,
+              left: 20,
+              bottom: 70,
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="year" /> 
-            <YAxis dataKey="unrestricted_demand" />
-            <Tooltip
-              formatter={tooltipFormatter}
-              
-     
-            />
+
+            {/* Show only unique years on the XAxis */}
+            <XAxis
+              dataKey="year"
+              ticks={uniqueYears} // Show unique years in ascending order
+            >
+                <Label value="Year" offset={-17} position="insideBottom" />{" "}
+              </XAxis>
+
+            <YAxis dataKey="unrestricted_demand" >
+            <Label value="Demand (MW)" angle={-90} offset={0} position="insideLeft" style={{ textAnchor: 'middle' }}  />
+              </YAxis>
+            <Tooltip formatter={tooltipFormatter} />
             <Area type={cardinal} dataKey="unrestricted_demand" stroke="#82ca9d" fill="#82ca9d" fillOpacity={0.3} />
           </AreaChart>
         </ResponsiveContainer>
