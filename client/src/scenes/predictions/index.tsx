@@ -17,7 +17,7 @@ import {
 
 const Predictions = () => {
   const { palette } = useTheme();
-  const [isDemandPredictions, setIsDemandPredictions] = useState(false);
+  const [isDemandPredictions, setIsDemandPredictions] = useState(true);
   const [is15DaysPredictions, setIs15DaysPredictions] = useState(false);
   const [demandData, setDemandData] = useState<any[]>([]);
   const [_15DayDemandData, set_15DayDemandData] = useState<any[]>([]);
@@ -37,6 +37,7 @@ const Predictions = () => {
           demand: data.predictions[index],
         }));
         setDemandData(formattedData);
+        setSelectedPrediction(formattedData); // Set initial state to hourly data
         setLoading(false);
       } catch (error) {
         setError("Error fetching 24 hours prediction data: " + error);
@@ -76,23 +77,23 @@ const Predictions = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          height: "100vh", // Full viewport height for vertical centering
+          height: "100vh", 
           textAlign: "center",
-          flexDirection: "column", // Center content vertically
+          flexDirection: "column",
         }}
       >
         <div className="loader"></div>
         <Typography
           variant="h4"
           fontSize="16px"
-          sx={{ marginTop: "1rem"}}
+          sx={{ marginTop: "1rem" }}
         >
           Fetching Predictions...
         </Typography>
         <Typography
           variant="h4"
           fontSize="16px"
-          sx={{ marginTop: "1rem"}}
+          sx={{ marginTop: "1rem" }}
         >
           Analyzing weather patterns and electricity usage trends. Please wait.
         </Typography>
@@ -153,7 +154,6 @@ const Predictions = () => {
 
   if (error) return <Typography>{error}</Typography>;
 
-
   return (
     <DashboardBox width="100%" height="100%" p="1rem" overflow="hidden">
       <FlexBetween m="1rem 2.5rem" gap="1rem">
@@ -166,8 +166,9 @@ const Predictions = () => {
         <FlexBetween m="1rem 2.5rem" gap="15px">
           <Button
             onClick={() => {
-              setIsDemandPredictions(!isDemandPredictions);
-              setSelectedPrediction(!isDemandPredictions ? demandData : []);
+              setIsDemandPredictions(true);
+              setIs15DaysPredictions(false);
+              setSelectedPrediction(demandData);
             }}
             sx={{
               color: palette.grey[900],
@@ -175,13 +176,13 @@ const Predictions = () => {
               boxShadow: "0.1rem 0.1rem 0.1rem 0.1rem rgba(0,0,0,.4)",
             }}
           >
-            {isDemandPredictions ? "Hide hourly demand Predictions" : "Show hourly demand Predictions"}
+            Show hourly demand Predictions
           </Button>
-          {_15DayDemandData && (
-            <Button
+          <Button
             onClick={() => {
-              setIs15DaysPredictions(!is15DaysPredictions);
-              setSelectedPrediction(!is15DaysPredictions ? _15DayDemandData : []);
+              setIsDemandPredictions(false);
+              setIs15DaysPredictions(true);
+              setSelectedPrediction(_15DayDemandData);
             }}
             sx={{
               color: palette.grey[900],
@@ -189,9 +190,8 @@ const Predictions = () => {
               boxShadow: "0.1rem 0.1rem 0.1rem 0.1rem rgba(0,0,0,.4)",
             }}
           >
-            {is15DaysPredictions ? "Hide 15 days demand Predictions" : "Show 15 days demand Predictions"}
+            Show 15 days demand Predictions
           </Button>
-          )}
         </FlexBetween>
       </FlexBetween>
 
