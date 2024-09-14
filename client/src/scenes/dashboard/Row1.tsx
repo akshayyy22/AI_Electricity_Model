@@ -152,16 +152,14 @@ const Row1 = () => {
   };
 
   // Prepare infrastructure data for the bar chart
-  const infrastructureChartData: Array<{ name: string; value: number }> =
-    Array.isArray(infrastructureData)
-      ? infrastructureData.map((item: InfrastructureData) => ({
-          name: item.Year,
-          Domestic: item.Domestic,
-          Commercial: item.Commercial,
-          Industrial: item.Industrial,
-          Street_Lighting: item.Street_Lighting,
-        }))
-      : [];
+  const infrastructureChartData: Array<{ name: string; value: number }> = Array.isArray(infrastructureData)
+  ? infrastructureData.flatMap((item: InfrastructureData) => [
+      { name: item.Year, value: item.Domestic },
+      { name: item.Year, value: item.Commercial },
+      { name: item.Year, value: item.Industrial },
+      { name: item.Year, value: item.Street_Lighting },
+    ])
+  : [];
 
   return (
     <>

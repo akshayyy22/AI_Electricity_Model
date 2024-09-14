@@ -25,11 +25,10 @@ const Predictions = () => {
   const [loading15Days, setLoading15Days] = useState(true);
   const [error, setError] = useState("");
   const [selectedPrediction, setSelectedPrediction] = useState<any[]>([]);
-
   useEffect(() => {
     const fetchDemandData = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:5000/predict/24hours");
+        const response = await axios.get("https://ai-electroforecast-backend-flask.onrender.com/predict/24hours");
         const data = response.data;
         console.log("Fetched hourly data:", data);
         const formattedData = data.datetime.map((datetime: string, index: number) => ({
@@ -51,7 +50,7 @@ const Predictions = () => {
   useEffect(() => {
     const fetch15DaysDemandData = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:5000/predict/15days");
+        const response = await axios.get("https://ai-electroforecast-backend-flask.onrender.com/predict/15days");
         const data = response.data;
         console.log("Fetched 15-day demand data:", data);
         const formattedData = data.datetime.map((datetime: string, index: number) => ({
