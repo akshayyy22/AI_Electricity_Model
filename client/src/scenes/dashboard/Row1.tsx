@@ -152,14 +152,21 @@ const Row1 = () => {
   };
 
   // Prepare infrastructure data for the bar chart
-  const infrastructureChartData: Array<{ name: string; value: number }> = Array.isArray(infrastructureData)
-  ? infrastructureData.flatMap((item: InfrastructureData) => [
-      { name: item.Year, value: item.Domestic },
-      { name: item.Year, value: item.Commercial },
-      { name: item.Year, value: item.Industrial },
-      { name: item.Year, value: item.Street_Lighting },
-    ])
-  : [];
+  const infrastructureChartData: Array<{
+    name: string;
+    Domestic: number;
+    Commercial: number;
+    Industrial: number;
+    Street_Lighting: number;
+  }> = Array.isArray(infrastructureData)
+    ? infrastructureData.map((item: InfrastructureData) => ({
+        name: item.Year, // Year as the name for the X-axis
+        Domestic: item.Domestic,
+        Commercial: item.Commercial,
+        Industrial: item.Industrial,
+        Street_Lighting: item.Street_Lighting,
+      }))
+    : [];
 
   return (
     <>
@@ -167,8 +174,8 @@ const Row1 = () => {
         <BoxHeader
           title="Max Demand Of Every Year From Last 16 Years:"
           subtitle="Top line represents demand"
-          sideText={`${maxDemandData?.length} records`}
-        />
+          sideText={`${Array.isArray(maxDemandData) ? maxDemandData.length : 0} records`}
+                  />
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={chartData}
@@ -226,7 +233,7 @@ const Row1 = () => {
         <BoxHeader
           title="Power Consumption by Season"
           subtitle="Seasonal power demand"
-          sideText={`${maxDemandData?.length} records`}
+          sideText={`${Array.isArray(maxDemandData) ? maxDemandData.length : 0} records`}
         />
 
         {/* Center the select option */}

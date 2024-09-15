@@ -1,4 +1,4 @@
-import { Box, useMediaQuery, Typography, useTheme } from "@mui/material";
+import { Box, useMediaQuery, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import Row1 from "./Row1";
 import Row2 from "./Row2";
@@ -68,8 +68,6 @@ const gridTemplateSmallScreens = `
 const Dashboard = () => {
   const isAboveMediumScreens = useMediaQuery("(min-width: 1200px)");
   const [loading, setLoading] = useState(true);
-  const theme = useTheme();
-  const palette = theme.palette;
 
   useEffect(() => {
     // Simulating data fetch delay

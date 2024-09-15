@@ -134,7 +134,7 @@ export interface PowerConsumptionsBasedOnWeatherData {
 export interface PowerFurtherRequiredFromSolarEnergy {
   _id: string;           
   date: string;         
-  od_ud: number;         // Overdraw/Underdraw (od-ud)
+  "od-ud": number; // Update to match the actual property name
   month: number;        
   __v: number;           
 }

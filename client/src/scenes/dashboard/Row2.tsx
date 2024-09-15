@@ -10,7 +10,7 @@ import {
   YAxis,
   ComposedChart,
   Bar,
-  Line,Label,
+  Line, Label,
   Legend,
 } from "recharts";
 import { PowerConsumptionGraphData } from "@/state/types";
@@ -24,7 +24,7 @@ const Row2 = () => {
     import_from_the_grid: number;
     schedule_from_the_grid: number;
     shedding: number;
-    'od-ud': number;
+    od_ud: number; // Corrected here
   }> = useMemo(() => {
     if (!Array.isArray(data)) return [];
     
@@ -33,7 +33,7 @@ const Row2 = () => {
       import_from_the_grid: item.import_from_the_grid,
       schedule_from_the_grid: item.schedule_from_the_grid,
       shedding: item.demand_med - item.import_from_the_grid, 
-      'od-ud': item['od-ud'], 
+      od_ud: item.od_ud, // Corrected here
     }));
     
     return transformedData.sort((a, b) => a.date.localeCompare(b.date));
@@ -57,11 +57,11 @@ const Row2 = () => {
           >
             <CartesianGrid stroke="#f5f5f5" />
             <XAxis dataKey="date" scale="band" >
-            <Label value="Year-month" offset={-40} position="insideBottom" />{" "}
-              </XAxis>
-            <YAxis >
-            <Label value="Demand (MW)" angle={-90} offset={-20} position="insideLeft" style={{ textAnchor: 'middle' }}  />
-              </YAxis>
+              <Label value="Year-month" offset={-40} position="insideBottom" />{" "}
+            </XAxis>
+            <YAxis>
+              <Label value="Demand (MW)" angle={-90} offset={-20} position="insideLeft" style={{ textAnchor: 'middle' }}  />
+            </YAxis>
             <Tooltip />
             <Legend />
             <Bar
@@ -84,7 +84,7 @@ const Row2 = () => {
             />
             <Line
               type="monotone"
-              dataKey="od-ud"
+              dataKey="od_ud" // Corrected here
               stroke="#8884d8"
               name="Overdraw/Underdraw"
             />
