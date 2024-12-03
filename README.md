@@ -33,11 +33,9 @@ This project, developed for the Smart India Hackathon 2024, aims to revolutioniz
 
 ## Deployment
 
-**[Provide detailed instructions on how to deploy the project, including environment setup, database configuration, and server deployment]**
 
 ## Usage
 
-**[Provide instructions on how to use the project, including accessing the dashboard, making predictions, and interacting with the system]**
 
 ## Future Work
 
